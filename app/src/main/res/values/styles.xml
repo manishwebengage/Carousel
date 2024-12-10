@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
+        <!-- Remove the indicator (bottom line) -->
+        <item name="tabIndicatorHeight">0dp</item>
+        <!-- Optionally, remove the divider between the tabs -->
+        <item name="tabIndicatorColor">@android:color/transparent</item>
+    </style>
+</resources>

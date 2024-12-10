@@ -1,0 +1,19 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Active dot state -->
+    <item android:state_enabled="true">
+        <shape>
+            <solid android:color="#00BCD4" />  <!-- Active dot color -->
+            <corners android:radius="6dp" />
+            <size android:width="10dp" android:height="10dp"/>
+        </shape>
+    </item>
+
+    <!-- Inactive dot state -->
+    <item >
+        <shape >
+            <solid android:color="#B0BEC5" />  <!-- Inactive dot color -->
+            <corners android:radius="6dp" />   <!-- Make the dot round -->
+            <size android:width="10dp" android:height="10dp"/>  <!-- Dot size -->
+        </shape>
+    </item>
+</selector>
