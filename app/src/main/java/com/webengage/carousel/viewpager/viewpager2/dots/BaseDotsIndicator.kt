@@ -11,9 +11,9 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.StyleableRes
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.webengage.carousel.R
 import com.webengage.carousel.viewpager.dots.OnPageChangeListenerHelper
-import com.webengage.dots.dots.ViewPagerAttacher
 import com.webengage.dots.dots.setWidth
 
 abstract class BaseDotsIndicator @JvmOverloads constructor(
@@ -186,6 +186,10 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
 
     fun attachTo(viewPager: ViewPager) {
         ViewPagerAttacher().setup(this, viewPager)
+    }
+
+    fun attachTo(viewPager2: ViewPager2) {
+        ViewPager2Attacher().setup(this, viewPager2)
     }
 
 

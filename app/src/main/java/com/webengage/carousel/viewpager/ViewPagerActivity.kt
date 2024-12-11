@@ -3,9 +3,11 @@ package com.webengage.carousel.viewpager
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
@@ -17,8 +19,10 @@ import com.webengage.carousel.viewpager.viewpager2.ViewPager2Adapter
 class ViewPagerActivity : AppCompatActivity() {
     lateinit var binding: ActivityViewPagerBinding
     lateinit var viewPager: ViewPager2
-    lateinit var dotsLayout : LinearLayout
+    lateinit var dotsLayout : ConstraintLayout
     var imageUrls : List<String> = listOf()
+    private val dots = mutableListOf<ImageView>()
+    private lateinit var selectedDot: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +38,12 @@ class ViewPagerActivity : AppCompatActivity() {
             "https://afiles.webengage.com/cdn-cgi/image/q=50/~2024bb40/39860aa5-60d0-4f58-8a47-faf4a9f547f6.jpeg",
             "https://afiles.webengage.com/cdn-cgi/image/q=50/~2024bb40/ae48d45d-82f1-43ee-8c49-acb2f660f4a3.jpeg",
             "https://afiles.webengage.com/cdn-cgi/image/q=50/~2024bb40/696d70a4-4d0d-429c-ac5a-0e0da5f0b162.jpeg",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCZlf5lc5tX-0gY-y94pGS0mQdL-D0lCH2OQ&s"
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCZlf5lc5tX-0gY-y94pGS0mQdL-D0lCH2OQ&s",
+
         )
 
         viewPager = findViewById(R.id.loopingViewPager)
-        dotsLayout = findViewById(R.id.dotsLayout)
+//        dotsLayout = findViewById(R.id.dotsLayout)
         val imageAdapter = ViewPager2Adapter(imageUrls)
 
         viewPager.adapter = imageAdapter
@@ -59,11 +64,42 @@ class ViewPagerActivity : AppCompatActivity() {
             page.translationX = -offset
         }
 
-        // Create and add dots dynamically based on the number of items
-        createDots(5)
-        updateDots(0)
+        // new translation try
+        selectedDot = findViewById(R.id.selectedDot)
+        dotsLayout = findViewById(R.id.dotsLayout)
+
+        // Add all dots to a list
+        dots.add(findViewById(R.id.dot1))
+        dots.add(findViewById(R.id.dot2))
+        dots.add(findViewById(R.id.dot3))
+        dots.add(findViewById(R.id.dot4))
+        dots.add(findViewById(R.id.dot5))
+
+        animateDotMovement(1)
+
+//        // Create and add dots dynamically based on the number of items
+//        createDots(5)
+//        updateDots(0)
+
+//        val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
+//        dotsIndicator.attachTo(viewPager)
 
     }
+
+
+    private fun animateDotMovement(targetIndex: Int) {
+        val targetDot = dots[targetIndex]
+
+        // Calculate the X position of the target dot
+        val targetX = targetDot.x + (targetDot.width / 2) - (selectedDot.width / 2)
+
+        // Create an ObjectAnimator to animate the selected dot movement
+        val animator = ObjectAnimator.ofFloat(selectedDot, "translationX", selectedDot.x, targetX)
+        animator.duration = 300
+        animator.interpolator = DecelerateInterpolator()
+        animator.start()
+    }
+
 
     private fun createDots(size: Int) {
         for (i in 0 until size) {
@@ -143,11 +179,13 @@ class ViewPagerActivity : AppCompatActivity() {
                     when (viewPager.currentItem) {
                         listSize - 1 -> {
                             viewPager.setCurrentItem(1, false)
-                            updateDots(0)
+//                            updateDots(0)
+                            animateDotMovement(0)
                         }
                         0 -> {
                             viewPager.setCurrentItem(listSize - 2, false)
-                            updateDots(2)
+//                            updateDots(2)
+                            animateDotMovement(2)
                         }
                     }
                 }
@@ -156,7 +194,8 @@ class ViewPagerActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 if (position != 0 && position != listSize - 1) {
-                    updateDots(position-1)
+//                    updateDots(position-1)
+                    animateDotMovement(position-1)
                 }
 
             }
@@ -164,37 +203,4 @@ class ViewPagerActivity : AppCompatActivity() {
         })
     }
 
-
-    // Function to set up dots (custom views) in the TabLayout
-//    private fun setupDotsIndicator(tabLayout: TabLayout, realCount: Int) {
-//        tabLayout.removeAllTabs()  // Clear any existing tabs (dots)
-//
-//        // Add a dot for each item in the ViewPager
-//        for (i in 0 until realCount) {
-//            val tab = tabLayout.newTab()
-//            tab.setCustomView(createDotView(false))  // Initially inactive
-//            tabLayout.addTab(tab)
-//        }
-//
-//        // Set the first dot as active
-//        tabLayout.getTabAt(0)?.customView = createDotView(true)
-//    }
-//
-//    // Function to create a custom dot view (active/inactive)
-//    private fun createDotView(isActive: Boolean): View {
-//        val dot = View(this)
-//        val size = resources.getDimensionPixelSize(R.dimen.dots_height)  // Size of the dot
-//        val layoutParams = LinearLayout.LayoutParams(size, size)
-//        dot.layoutParams = layoutParams
-//        dot.setBackgroundResource(if (isActive) R.drawable.tab_dot_active else R.drawable.tab_dot_inactive)
-//        return dot
-//    }
-//
-//    // Function to update the tab dots when a page is selected
-//    private fun updateTabDots(tabLayout: TabLayout, selectedPosition: Int) {
-//        for (i in 0 until 3) {
-//            val tab = tabLayout.getTabAt(i)
-//            tab?.customView = createDotView(i == selectedPosition)
-//        }
-//    }
 }

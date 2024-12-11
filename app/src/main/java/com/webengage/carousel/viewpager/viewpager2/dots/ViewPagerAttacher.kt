@@ -1,11 +1,12 @@
-package com.webengage.dots.dots
+package com.webengage.carousel.viewpager.viewpager2.dots
 
 import android.database.DataSetObserver
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.webengage.carousel.viewpager.dots.OnPageChangeListenerHelper
-import com.webengage.carousel.viewpager.viewpager2.dots.BaseDotsIndicator
 import com.webengage.carousel.viewpager.dots.DotsIndicatorAttacher
+import com.webengage.dots.dots.isEmpty
+import com.webengage.dots.dots.isNotEmpty
 
 internal class ViewPagerAttacher :
     DotsIndicatorAttacher<ViewPager, PagerAdapter>() {

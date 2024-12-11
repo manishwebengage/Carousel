@@ -1,4 +1,4 @@
-package com.webengage.carousel.viewpager.dots
+package com.webengage.carousel.viewpager.viewpager2.dots
 
 import android.animation.ArgbEvaluator
 import android.content.Context
@@ -12,13 +12,12 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.webengage.carousel.R
-import com.webengage.carousel.viewpager.loopingviepager.isInBounds
-import com.webengage.carousel.viewpager.loopingviepager.setBackgroundCompat
-import com.webengage.carousel.viewpager.loopingviepager.setPaddingHorizontal
-import com.webengage.carousel.viewpager.loopingviepager.setPaddingVertical
-import com.webengage.carousel.viewpager.loopingviepager.setWidth
-import com.webengage.carousel.viewpager.viewpager2.dots.BaseDotsIndicator
-import com.webengage.carousel.viewpager.viewpager2.dots.DotsGradientDrawable
+import com.webengage.carousel.viewpager.dots.OnPageChangeListenerHelper
+import com.webengage.dots.dots.isInBounds
+import com.webengage.dots.dots.setBackgroundCompat
+import com.webengage.dots.dots.setPaddingHorizontal
+import com.webengage.dots.dots.setPaddingVertical
+import com.webengage.dots.dots.setWidth
 
 class DotsIndicator @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
